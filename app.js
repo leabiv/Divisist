@@ -11,6 +11,9 @@ formNotas.addEventListener('submit', (e) => {
     mostrarNotas();
 })
 
+/** 
+    Function que permite capturar datos del formulario
+*/
 function capturarDatos() {
 
     let nombreMat = document.getElementById('nombre').value;
@@ -23,6 +26,14 @@ function capturarDatos() {
     localStorage.setItem('notas', JSON.stringify(notas))
 }
 
+/** 
+*   Function que permite validar los parametros del formulario y guarda el objeto creado
+*   @param{string} nombreMat - Nombre de la Materia
+*   @param{string} primerNota - Primera Nota
+*   @param{string} segunNota - Segunda Nota
+*   @param{string} tercerNota -Tercera Nota
+*   @param{string} exameNota - Examen Final
+*/
 function validarformulario(nombreMat, primerNota, segunNota, tercerNota, exameNota) {
     //Expresion Regular Letras con Espacio
     let ExpRegLetrasEspacio = "^[A-ZÑa-zñáéíóúÁÉÍÓÚ'° ]+$";
@@ -50,20 +61,34 @@ function validarformulario(nombreMat, primerNota, segunNota, tercerNota, exameNo
         }
 
         calcularPromedio(notaEstudiante);
-        //if(notas.some((elem) => elem.nombreMateria == notaEstudiante.nombreMateria)){
-        //}
-        notas.push(notaEstudiante);
-        return
+      
+        let  buscarMat = notas.some((elem) => elem.nombreMateria == notaEstudiante.nombreMateria);
+        if(!buscarMat){
+            notas.push(notaEstudiante);
+            return
+        }else{
+            alert('La Materia ya esta Registrada')
+        }
+        
     } else {
-        alert('Algun dato no es valido')
+        alert('Verificar los datos del Formulario, el nombre de la Materia y las notas son numericos.')
     }
 }
 
+/**
+ * 
+ * @param {Object} notaEstudiante - Objecto Estudiante
+ * 
+ */
 function calcularPromedio(notaEstudiante){
     let calculo = ((notaEstudiante.primeraNota + notaEstudiante.segundaNota + notaEstudiante.terceraNota) / 3 * 0.7 + (notaEstudiante.examenFinal * 0.3)).toFixed(1);
     notaEstudiante.definitiva = parseFloat(calculo);
 }
 
+/**
+ * Function que permite crear la Tabla en HTML de notas
+ * @return 
+ */
 function mostrarNotas() {
     let cadena = '';
     notas.forEach((elemento) => {
@@ -82,6 +107,9 @@ function mostrarNotas() {
     listNotas.innerHTML = cadena;
 }
 
+/**
+ * Dibujar el campo de la Definitiva
+ */
 function colorDefinitiva() {
     notas.forEach((elem) => {
         if (elem.definitiva <= 2.9) {
@@ -93,3 +121,4 @@ function colorDefinitiva() {
         }
     })
 }
+
