@@ -3,6 +3,8 @@ let listNotas = document.getElementById('notas');
 
 
 let notas = JSON.parse(localStorage.getItem('notas')) ?? [];
+colorDefinitiva();
+mostrarNotas()
 
 formNotas.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -87,7 +89,7 @@ function calcularPromedio(notaEstudiante){
 
 /**
  * Function que permite crear la Tabla en HTML de notas
- * @return 
+ * 
  */
 function mostrarNotas() {
     let cadena = '';
@@ -101,6 +103,7 @@ function mostrarNotas() {
                 <td>${elemento.terceraNota}</td>
                 <td>${elemento.examenFinal}</td>
                 <td id="def" style="background-color: ${elemento.color};" >${elemento.definitiva}</td>
+                
             </tr>
         `;
     });
